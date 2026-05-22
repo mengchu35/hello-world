@@ -95,7 +95,7 @@
   <body>
     <main>
       <h1>登入帳號</h1>
-      <form action="#" method="post" autocomplete="on" novalidate>
+      <form action="#" method="post" autocomplete="on">
         <p>
           <label for="username">使用者名稱</label>
           <input
@@ -119,9 +119,27 @@
         <button type="submit">登入</button>
       </form>
       <footer>
-        此為靜態示範表單，提交後並未連接後端伺服器；實際專請搭配安全驗證與
-        HTTPS。
+        示範用：送出後將以前端腳本導向 dashboard.html（未送出至伺服器；正式環境請改由
+        後端驗證並使用 HTTPS）。
       </footer>
     </main>
+    <script>
+      (function () {
+        var STORAGE_KEY = "demoLoggedInUser";
+        var form = document.querySelector("form");
+
+        form.addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          var usernameInput = document.getElementById("username");
+          usernameInput.value = usernameInput.value.trim();
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+          sessionStorage.setItem(STORAGE_KEY, usernameInput.value);
+          window.location.href = "dashboard.html";
+        });
+      })();
+    </script>
   </body>
 </html>
